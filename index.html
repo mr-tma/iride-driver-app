@@ -404,27 +404,36 @@ function buildReview() {
 async function getPreviousOdometer(vanId) {
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+    const timeout = setTimeout(() => controller.abort(), 15000); // 15 second timeout
     const res  = await fetch(CSV_URL + "&t=" + Date.now(), {signal: controller.signal});
     clearTimeout(timeout);
     const text = await res.text();
     const lines = text.trim().split("\n");
     if (lines.length < 2) return null;
     const headers = splitCSV(lines[0]);
-    const vanIdx  = headers.indexOf("Van");
-    const odoIdx  = headers.indexOf("Starting Odometer");
+    // Trim and lowercase headers for flexible matching
+    const vanIdx  = headers.findIndex(h => h.trim().toLowerCase() === "van");
+    const odoIdx  = headers.findIndex(h => h.trim().toLowerCase() === "starting odometer");
+    console.log("Headers found:", headers);
+    console.log("Van index:", vanIdx, "Odo index:", odoIdx);
     if (vanIdx < 0 || odoIdx < 0) return null;
     // Find all rows for this van, get the last one
     let lastOdo = null;
     for (let i = 1; i < lines.length; i++) {
       const cols = splitCSV(lines[i]);
-      if ((cols[vanIdx]||"").trim() === vanId) {
+      const rowVan = (cols[vanIdx]||"").trim();
+      console.log("Row", i, "van:", rowVan, "odo:", cols[odoIdx]);
+      if (rowVan === vanId.trim()) {
         const odo = parseInt(cols[odoIdx]);
         if (!isNaN(odo)) lastOdo = odo;
       }
     }
+    console.log("Last odometer for", vanId, ":", lastOdo);
     return lastOdo;
-  } catch(e) { return null; } // Returns null on timeout or error — submission continues without miles
+  } catch(e) {
+    console.log("getPreviousOdometer error:", e.message);
+    return null;
+  }
 }
 
 function splitCSV(line) {
