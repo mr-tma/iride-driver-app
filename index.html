@@ -403,7 +403,10 @@ function buildReview() {
 // ── Get previous odometer for this van ──
 async function getPreviousOdometer(vanId) {
   try {
-    const res  = await fetch(CSV_URL + "&t=" + Date.now());
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+    const res  = await fetch(CSV_URL + "&t=" + Date.now(), {signal: controller.signal});
+    clearTimeout(timeout);
     const text = await res.text();
     const lines = text.trim().split("\n");
     if (lines.length < 2) return null;
@@ -421,7 +424,7 @@ async function getPreviousOdometer(vanId) {
       }
     }
     return lastOdo;
-  } catch(e) { return null; }
+  } catch(e) { return null; } // Returns null on timeout or error — submission continues without miles
 }
 
 function splitCSV(line) {
@@ -496,8 +499,13 @@ async function submitLog() {
     goToStep(5);
   } catch(err) {
     btn.textContent="Submit Daily Log →"; btn.classList.remove("loading"); btn.disabled=false;
-    document.getElementById("submit-error").textContent="Submission failed — check your connection.";
+    document.getElementById("submit-error").textContent="Submission failed — check your connection and try again.";
     document.getElementById("submit-error").style.display="block";
+  } finally {
+    // Always re-enable button
+    if (btn.disabled) {
+      btn.textContent="Submit Daily Log →"; btn.classList.remove("loading"); btn.disabled=false;
+    }
   }
 }
 
