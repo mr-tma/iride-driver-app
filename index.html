@@ -7,7 +7,7 @@
 <title>IRide Vanpool — Daily Log</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
@@ -24,7 +24,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 }
 .header{background:var(--white);border-bottom:1px solid var(--lgray);position:sticky;top:0;z-index:100}
 .header-row{display:flex;justify-content:space-between;align-items:center;padding:14px 20px}
-.cancel-btn{background:transparent;border:1px solid var(--lgray);color:var(--mgray);padding:7px 16px;border-radius:100px;font-size:13px;font-weight:500;transition:all 0.15s}
+.cancel-btn{background:transparent;border:1px solid var(--lgray);color:var(--mgray);padding:7px 16px;border-radius:100px;font-size:13px;font-weight:500}
 .progress-wrap{display:flex;gap:3px;padding:0 20px 12px}
 .progress-seg{flex:1;height:3px;border-radius:2px;background:var(--lgray);transition:all 0.3s}
 .progress-seg.done{background:var(--navy)}
@@ -59,7 +59,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .quick-btn.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
 .hint{font-size:13px;color:var(--mgray);margin-top:-12px;margin-bottom:20px;line-height:1.5}
 .rider-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
-.rider-card{background:var(--white);border:1px solid var(--lgray);border-radius:12px;padding:14px;transition:border-color 0.15s}
+.rider-card{background:var(--white);border:1px solid var(--lgray);border-radius:12px;padding:14px}
 .rider-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .rider-name{font-size:15px;font-weight:600;color:var(--dark);flex:1;letter-spacing:-0.1px}
 .driver-badge{font-size:10px;background:#EDF2FB;color:var(--navy);padding:2px 9px;border-radius:100px;border:1px solid var(--skylight);text-transform:uppercase;letter-spacing:0.8px;font-weight:600}
@@ -70,7 +70,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .trip-btn.pm{background:#F2F5FB;color:#4A6FA5;border-color:#BDD0EA;font-weight:600}
 .trip-btn.out{background:var(--off);color:var(--mgray);border-color:var(--lgray)}
 .add-rider-row{display:flex;gap:8px;margin-top:4px;margin-bottom:24px}
-.add-btn{background:var(--navy);color:var(--white);border:none;padding:13px 18px;border-radius:10px;font-size:14px;font-weight:600;font-family:inherit;white-space:nowrap;transition:background 0.15s}
+.add-btn{background:var(--navy);color:var(--white);border:none;padding:13px 18px;border-radius:10px;font-size:14px;font-weight:600;font-family:inherit;white-space:nowrap}
 .checklist{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
 .check-row{background:var(--white);border:1px solid var(--lgray);border-radius:12px;overflow:hidden;transition:border-color 0.2s}
 .check-row.good-row{border-color:var(--greenbdr)}
@@ -90,10 +90,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .prog-track{flex:1;height:4px;background:var(--lgray);border-radius:2px;overflow:hidden}
 .prog-fill{height:100%;background:var(--navy);border-radius:2px;transition:width 0.3s}
 .prog-count{font-size:13px;color:var(--mgray);font-weight:500;font-variant-numeric:tabular-nums}
-.all-clear{background:var(--greenbg);border:1px solid var(--greenbdr);color:var(--green);border-radius:10px;padding:12px 14px;font-size:14px;font-weight:600;margin-bottom:20px}
+.all-clear{border-radius:10px;padding:12px 14px;font-size:14px;font-weight:600;margin-bottom:20px}
 .review-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
 .review-card{background:var(--white);border:1px solid var(--lgray);border-radius:12px;padding:16px;text-align:center}
-.review-val{font-size:22px;font-weight:700;color:var(--navy);margin-bottom:4px;letter-spacing:-0.5px;font-variant-numeric:tabular-nums}
+.review-val{font-size:20px;font-weight:700;color:var(--navy);margin-bottom:4px;letter-spacing:-0.5px;font-variant-numeric:tabular-nums}
 .review-label{font-size:11px;color:var(--mgray);text-transform:uppercase;letter-spacing:1px;font-weight:600}
 .review-section{background:var(--white);border:1px solid var(--lgray);border-radius:12px;overflow:hidden;margin-bottom:20px}
 .review-section-head{font-size:11px;color:var(--mgray);text-transform:uppercase;letter-spacing:1.2px;padding:10px 14px;border-bottom:1px solid var(--lgray);font-weight:600;background:var(--off)}
@@ -108,7 +108,7 @@ textarea:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(26,42,94,0.08)
 .submit-btn{width:100%;background:var(--navy);color:var(--white);border:none;padding:17px;border-radius:12px;font-size:16px;font-weight:600;font-family:inherit;margin-bottom:12px;transition:all 0.15s;-webkit-appearance:none}
 .submit-btn:active{transform:scale(0.99)}
 .submit-btn.loading{background:var(--mgray)}
-.back-btn{background:var(--white);border:1px solid var(--lgray);color:var(--mgray);padding:13px 20px;border-radius:10px;font-size:15px;font-family:inherit;font-weight:500;transition:all 0.15s}
+.back-btn{background:var(--white);border:1px solid var(--lgray);color:var(--mgray);padding:13px 20px;border-radius:10px;font-size:15px;font-family:inherit;font-weight:500}
 .next-btn{flex:1;background:var(--navy);color:var(--white);border:none;padding:14px;border-radius:10px;font-size:16px;font-weight:600;font-family:inherit;transition:all 0.15s}
 .next-btn:active{transform:scale(0.99)}
 .next-btn:disabled{background:var(--lgray);color:var(--mgray)}
@@ -122,7 +122,6 @@ textarea:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(26,42,94,0.08)
 .success-val{font-size:36px;font-weight:700;color:var(--navy);letter-spacing:-1px;font-variant-numeric:tabular-nums}
 .success-slabel{font-size:11px;color:var(--mgray);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-top:4px}
 .success-divider{width:1px;height:40px;background:var(--lgray)}
-/* Admin notice */
 #admin-notice{background:var(--navy);color:var(--white);padding:10px 20px;font-size:13px;display:none;justify-content:space-between;align-items:flex-start;gap:12px}
 #admin-notice .notice-head{font-weight:700;margin-bottom:3px;font-size:12px;opacity:0.7;text-transform:uppercase;letter-spacing:1px}
 #admin-notice .dismiss{background:none;border:none;color:rgba(255,255,255,0.5);font-size:18px;line-height:1;padding:0;flex-shrink:0}
@@ -131,12 +130,382 @@ textarea:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(26,42,94,0.08)
 <body>
 
 <script>
-// ══════════════════════════════════════════════
-//  AIRTABLE CONFIG
-// ══════════════════════════════════════════════
-const AT_TOKEN   = "patzQtrxUxjIiVxFf.6040a0dead42e311821fc7cb1caaed96fdee8a06eb75e7d4556f7748cb38588d";
-const AT_BASE    = "appLPsKjIas8sWlu6";
-const AT_TABLE   = "tblESoZQVB6PDeFhW"; // Daily Logs
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznmrLW1pj7_FgGz40KJ9ZOJLkLtt9vjMoGq_t2GivSMlcFCGNhNNBWftnxOMS05EBlTg/exec";
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPcBnIcQk0V4ZtKOaSTy-RUbKs1WlLXTFn1Dr7JcjifgHEpxgPdizbnXSaGPB8NldKB04Kq9NTdZ1L/pub?gid=0&single=true&output=csv";
+
+const VAN_ROSTERS = {
+  "Van 5":  { driver:"Robert Johnson", riders:[
+    {name:"Keith White",isDriver:false},{name:"Robert Johnson",isDriver:true}]},
+  "Van 6":  { driver:"Eric Schile", riders:[
+    {name:"Eric Schile",isDriver:true},{name:"Dom Winder",isDriver:false},
+    {name:"Jonathan Speare",isDriver:false},{name:"Dario Steinhardt",isDriver:false}]},
+  "Van 9":  { driver:"Dustin Thompson", riders:[
+    {name:"Dustin Thompson",isDriver:true},{name:"Mike Paul",isDriver:false}]},
+  "Van 16": { driver:"Laura Bess", riders:[
+    {name:"Laura Bess",isDriver:true},{name:"Karen",isDriver:false},
+    {name:"Stacey",isDriver:false},{name:"Mark Livesay",isDriver:true},
+    {name:"Ceara",isDriver:false},{name:"Sydney",isDriver:false},{name:"Therese",isDriver:false}]},
+  "Van 17": { driver:"Ron Betts", riders:[
+    {name:"Ron Betts",isDriver:true},{name:"Therese Elkinton",isDriver:false}]},
+  "Van 18": { driver:"Vanessa Janckila", riders:[
+    {name:"Casey",isDriver:false},{name:"Vanessa Janckila",isDriver:true},
+    {name:"Bob Larson",isDriver:false},{name:"Eric Sylvester",isDriver:false}]},
+  "Van 23": { driver:"Eric Schile", riders:[
+    {name:"Greg Koniges",isDriver:true},{name:"Kevin Keeley",isDriver:true},
+    {name:"Prakash Paruchuri",isDriver:true},{name:"Eric Schile",isDriver:true},
+    {name:"Dom Winder",isDriver:false},{name:"Jacob Zipp",isDriver:false},
+    {name:"Jonathan Speare",isDriver:false},{name:"Dario Steinhardt",isDriver:false},
+    {name:"Hunter Hickes",isDriver:false}]},
+};
+
+const CHECKLIST_ITEMS = [
+  {id:"damage", icon:"🪟", label:"No damage to mirrors, windows, or body"},
+  {id:"tires",  icon:"🛞", label:"Tires — no cuts, proper inflation"},
+  {id:"lights", icon:"💡", label:"All lights & signals working"},
+  {id:"clear",  icon:"🚦", label:"Clear to move — no obstructions"},
+  {id:"fuel",   icon:"⛽", label:"Fuel level above half tank"},
+  {id:"wipers", icon:"🌧️", label:"Windshield wipers functional"},
+  {id:"interior",icon:"🪑",label:"Interior clean & clear of hazards"},
+];
+
+const TRIP_LABELS = {both:"Both Ways",am:"AM Only",pm:"PM Only",out:"Not Today"};
+
+let state = {
+  van:null, driver:"", odometer:"", milesDriven:null,
+  riders:[], checklist:{}, checkNotes:{}, comments:"", step:0
+};
+
+window.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("welcome-date").textContent =
+    new Date().toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"});
+  buildVanGrid();
+  initAdminNotice();
+});
+
+// ── Admin Notice ──
+const ADMIN_NOTICE = "";
+function initAdminNotice() {
+  const msg = ADMIN_NOTICE || localStorage.getItem("iride_notice") || "";
+  if (msg && !sessionStorage.getItem("notice_dismissed")) {
+    document.getElementById("notice-text").textContent = msg;
+    document.getElementById("admin-notice").style.display = "flex";
+  }
+}
+function dismissNotice() {
+  sessionStorage.setItem("notice_dismissed","1");
+  document.getElementById("admin-notice").style.display = "none";
+}
+function setAdminNotice(msg){localStorage.setItem("iride_notice",msg);location.reload()}
+function clearAdminNotice(){localStorage.removeItem("iride_notice");location.reload()}
+
+// ── Van Grid ──
+function buildVanGrid() {
+  const grid = document.getElementById("van-grid");
+  Object.entries(VAN_ROSTERS).forEach(([vanId,data]) => {
+    const card = document.createElement("button");
+    card.className = "van-card";
+    card.innerHTML = `<div class="van-accent"></div>
+      <div class="van-name">${vanId}</div>
+      <div class="van-driver">${data.driver}</div>
+      <div class="van-count">${data.riders.length} riders</div>`;
+    card.onclick = () => selectVan(vanId);
+    grid.appendChild(card);
+  });
+}
+
+// ── Navigation ──
+function selectVan(vanId) {
+  state.van    = vanId;
+  state.driver = VAN_ROSTERS[vanId].driver || "";
+  state.riders = VAN_ROSTERS[vanId].riders.map(r => ({...r, status:"both"}));
+  state.checklist = {}; state.checkNotes = {};
+  CHECKLIST_ITEMS.forEach(c => {state.checklist[c.id]=null; state.checkNotes[c.id]="";});
+  buildRiderList(); buildChecklist();
+  goToStep(1);
+}
+
+function goToStep(step) {
+  state.step = step;
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById("page-"+step).classList.add("active");
+  document.getElementById("cancel-btn").style.display = step>0&&step<5?"block":"none";
+  document.getElementById("progress-wrap").style.display = step>0&&step<5?"flex":"none";
+  if (step>0&&step<5) updateProgress(step-1);
+  if (step===1) {
+    const picks = document.getElementById("driver-quick-picks");
+    picks.innerHTML = "";
+    VAN_ROSTERS[state.van].riders.filter(r=>r.isDriver).forEach(r => {
+      const btn = document.createElement("button");
+      btn.className = "quick-btn"+(state.driver===r.name?" active":"");
+      btn.textContent = r.name.split(" ")[0];
+      btn.onclick = () => {
+        state.driver = r.name;
+        document.getElementById("driver-input").value = r.name;
+        document.querySelectorAll("#driver-quick-picks .quick-btn").forEach(b=>b.classList.remove("active"));
+        btn.classList.add("active");
+      };
+      picks.appendChild(btn);
+    });
+    document.getElementById("driver-input").value = state.driver;
+    document.getElementById("odometer-input").value = state.odometer;
+  }
+  ["1","2","3","4"].forEach(i => {
+    const ev = document.getElementById("step-van-"+i);
+    const dt = document.getElementById("step-date-"+i);
+    if(ev) ev.textContent = state.van||"";
+    if(dt) dt.textContent = new Date().toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
+  });
+  if (step===4) buildReview();
+  window.scrollTo(0,0);
+}
+
+function updateProgress(activeIdx) {
+  [0,1,2,3].forEach(i => {
+    const seg = document.getElementById("seg-"+i);
+    seg.className = "progress-seg"+(i<activeIdx?" done":i===activeIdx?" active":"");
+  });
+}
+
+function cancelLog() {
+  state = {van:null,driver:"",odometer:"",milesDriven:null,riders:[],checklist:{},checkNotes:{},comments:"",step:0};
+  goToStep(0);
+}
+
+// ── Riders ──
+function buildRiderList() {
+  const list = document.getElementById("rider-list");
+  list.innerHTML = "";
+  state.riders.forEach((rider,idx) => {
+    const card = document.createElement("div");
+    card.className = "rider-card";
+    card.id = "rider-card-"+idx;
+    card.innerHTML = `
+      <div class="rider-top">
+        <span class="rider-name">${rider.name}</span>
+        ${rider.isDriver?'<span class="driver-badge">Driver</span>':""}
+      </div>
+      <div class="trip-btns">
+        ${["both","am","pm","out"].map(s=>`
+          <button class="trip-btn ${rider.status===s?s:""}" onclick="setRiderStatus(${idx},'${s}')">
+            ${s==="both"?"Both":s==="am"?"AM Only":s==="pm"?"PM Only":"Not Today"}
+          </button>`).join("")}
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+function setRiderStatus(idx,status) {
+  state.riders[idx].status = status;
+  const card = document.getElementById("rider-card-"+idx);
+  card.querySelectorAll(".trip-btn").forEach((btn,i) => {
+    const s = ["both","am","pm","out"][i];
+    btn.className = "trip-btn"+(status===s?" "+s:"");
+  });
+}
+
+function addRiderFromInput() {
+  const input = document.getElementById("add-rider-input");
+  const name  = input.value.trim();
+  if (!name) return;
+  state.riders.push({name,isDriver:false,status:"both"});
+  input.value = "";
+  buildRiderList();
+}
+
+// ── Checklist ──
+function buildChecklist() {
+  const el = document.getElementById("checklist");
+  el.innerHTML = "";
+  CHECKLIST_ITEMS.forEach(item => {
+    const row = document.createElement("div");
+    row.className = "check-row"; row.id = "check-row-"+item.id;
+    row.innerHTML = `
+      <div class="check-top">
+        <span class="check-icon">${item.icon}</span>
+        <span class="check-label">${item.label}</span>
+      </div>
+      <div class="check-btns">
+        <button class="check-opt" id="opt-good-${item.id}" onclick="setCheckStatus('${item.id}','good')">✓ Good</button>
+        <button class="check-opt" id="opt-issue-${item.id}" onclick="setCheckStatus('${item.id}','issue')">⚠ Issue</button>
+      </div>
+      <div class="check-issue-note" id="note-wrap-${item.id}">
+        <textarea class="check-issue-input" id="note-${item.id}" rows="2"
+          placeholder="Describe the issue…"
+          oninput="state.checkNotes['${item.id}']=this.value"></textarea>
+      </div>`;
+    el.appendChild(row);
+  });
+}
+
+function setCheckStatus(id,status) {
+  state.checklist[id] = status;
+  const row=document.getElementById("check-row-"+id);
+  const good=document.getElementById("opt-good-"+id);
+  const issue=document.getElementById("opt-issue-"+id);
+  const note=document.getElementById("note-wrap-"+id);
+  row.classList.remove("good-row","issue-row");
+  good.classList.remove("good-active"); issue.classList.remove("issue-active");
+  if (status==="good"){row.classList.add("good-row");good.classList.add("good-active");note.classList.remove("visible");}
+  else{row.classList.add("issue-row");issue.classList.add("issue-active");note.classList.add("visible");document.getElementById("note-"+id).focus();}
+  updateCheckProgress();
+}
+
+function updateCheckProgress() {
+  const answered = Object.values(state.checklist).filter(v=>v!==null).length;
+  const total    = CHECKLIST_ITEMS.length;
+  const allDone  = answered===total;
+  const issues   = Object.values(state.checklist).filter(v=>v==="issue").length;
+  document.getElementById("check-fill").style.width = (answered/total*100)+"%";
+  document.getElementById("check-count").textContent = answered+"/"+total;
+  const el = document.getElementById("all-clear");
+  if (allDone) {
+    el.style.display = "block";
+    if (issues===0){el.style.cssText="background:var(--greenbg);border:1px solid var(--greenbdr);color:var(--green);border-radius:10px;padding:12px 14px;font-size:14px;font-weight:600;margin-bottom:20px";el.textContent="✅ All items checked — van is clear!";}
+    else{el.style.cssText="background:var(--amberbg);border:1px solid var(--amberbdr);color:var(--amber);border-radius:10px;padding:12px 14px;font-size:14px;font-weight:600;margin-bottom:20px";el.textContent=`⚠️ ${issues} issue${issues>1?"s":""} noted — coordinator will be informed.`;}
+  } else { el.style.display="none"; }
+  document.getElementById("checklist-warning").style.display="none";
+  document.getElementById("next-btn-3").disabled = !allDone;
+}
+
+function tryGoToReview() {
+  if (Object.values(state.checklist).filter(v=>v!==null).length < CHECKLIST_ITEMS.length) {
+    document.getElementById("checklist-warning").style.display="block";
+    for (const item of CHECKLIST_ITEMS) {
+      if (state.checklist[item.id]===null){document.getElementById("check-row-"+item.id).scrollIntoView({behavior:"smooth",block:"center"});break;}
+    }
+    return;
+  }
+  goToStep(4);
+}
+
+// ── Review ──
+function buildReview() {
+  state.driver   = document.getElementById("driver-input").value.trim()||state.driver;
+  state.odometer = document.getElementById("odometer-input").value.trim();
+  state.comments = document.getElementById("comments-input").value.trim();
+  const riding   = state.riders.filter(r=>r.status!=="out").length;
+  const issues   = Object.values(state.checklist).filter(v=>v==="issue").length;
+  document.getElementById("rv-van").textContent    = state.van;
+  document.getElementById("rv-driver").textContent = state.driver||"—";
+  document.getElementById("rv-odo").textContent    = state.odometer ? parseInt(state.odometer).toLocaleString() : "—";
+  document.getElementById("rv-riders").textContent = riding;
+  document.getElementById("rv-date").textContent   = new Date().toLocaleDateString("en-US",{month:"short",day:"numeric"});
+  const rvCheck = document.getElementById("rv-check");
+  if (issues>0){rvCheck.textContent=issues+" Issue"+(issues>1?"s":"");rvCheck.style.color="var(--amber)";}
+  else{rvCheck.textContent="All Clear ✓";rvCheck.style.color="var(--green)";}
+  document.getElementById("review-riders").innerHTML = state.riders.map(r=>`
+    <div class="review-rider-row">
+      <span class="review-rider-name">${r.name}</span>
+      <span class="review-rider-status status-${r.status}">${TRIP_LABELS[r.status]}</span>
+    </div>`).join("");
+}
+
+// ── Get previous odometer for this van ──
+async function getPreviousOdometer(vanId) {
+  try {
+    const res  = await fetch(CSV_URL + "&t=" + Date.now());
+    const text = await res.text();
+    const lines = text.trim().split("\n");
+    if (lines.length < 2) return null;
+    const headers = splitCSV(lines[0]);
+    const vanIdx  = headers.indexOf("Van");
+    const odoIdx  = headers.indexOf("Starting Odometer");
+    if (vanIdx < 0 || odoIdx < 0) return null;
+    // Find all rows for this van, get the last one
+    let lastOdo = null;
+    for (let i = 1; i < lines.length; i++) {
+      const cols = splitCSV(lines[i]);
+      if ((cols[vanIdx]||"").trim() === vanId) {
+        const odo = parseInt(cols[odoIdx]);
+        if (!isNaN(odo)) lastOdo = odo;
+      }
+    }
+    return lastOdo;
+  } catch(e) { return null; }
+}
+
+function splitCSV(line) {
+  const result=[]; let cur="", inQ=false;
+  for (let i=0;i<line.length;i++) {
+    if (line[i]==='"'){inQ=!inQ;}
+    else if (line[i]===","&&!inQ){result.push(cur.trim());cur="";}
+    else{cur+=line[i];}
+  }
+  result.push(cur.trim());
+  return result;
+}
+
+// ── Submit ──
+async function submitLog() {
+  state.driver   = document.getElementById("driver-input").value.trim()||state.driver;
+  state.odometer = document.getElementById("odometer-input").value.trim();
+  state.comments = document.getElementById("comments-input").value.trim();
+  if (!state.driver){
+    document.getElementById("submit-error").textContent="Please enter the driver name.";
+    document.getElementById("submit-error").style.display="block";
+    return;
+  }
+  if (!state.odometer){
+    document.getElementById("submit-error").textContent="Please enter the starting odometer.";
+    document.getElementById("submit-error").style.display="block";
+    return;
+  }
+
+  const btn = document.getElementById("submit-btn");
+  btn.textContent="Submitting…"; btn.classList.add("loading"); btn.disabled=true;
+  document.getElementById("submit-error").style.display="none";
+
+  const now      = new Date();
+  const dateStr  = now.toISOString().split("T")[0];
+  const riding   = state.riders.filter(r=>r.status!=="out").length;
+  const allClear = Object.values(state.checklist).every(v=>v==="good");
+  const issues   = CHECKLIST_ITEMS.filter(c=>state.checklist[c.id]==="issue")
+    .map(c=>c.label+(state.checkNotes[c.id]?": "+state.checkNotes[c.id]:"")).join("; ");
+  const ridersPresent = state.riders.filter(r=>r.status!=="out").map(r=>r.name).join(", ");
+
+  // Calculate miles driven from previous odometer
+  const prevOdo = await getPreviousOdometer(state.van);
+  const milesDriven = (prevOdo && state.odometer && parseInt(state.odometer) > prevOdo)
+    ? parseInt(state.odometer) - prevOdo : null;
+
+  const row = [
+    now.toISOString(),
+    dateStr,
+    state.van,
+    state.driver,
+    parseInt(state.odometer),
+    milesDriven,
+    riding,
+    ridersPresent,
+    allClear ? "Yes" : "No",
+    issues || "None",
+    state.comments,
+  ];
+
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method:"POST",
+      mode:"no-cors",
+      body: JSON.stringify({row}),
+    });
+    document.getElementById("s-riders").textContent = riding;
+    document.getElementById("s-odo").textContent    = parseInt(state.odometer).toLocaleString();
+    document.getElementById("s-miles").textContent  = milesDriven !== null ? milesDriven + " mi" : "—";
+    document.getElementById("success-body").textContent =
+      state.van+" · "+state.driver+" · "+now.toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"});
+    goToStep(5);
+  } catch(err) {
+    btn.textContent="Submit Daily Log →"; btn.classList.remove("loading"); btn.disabled=false;
+    document.getElementById("submit-error").textContent="Submission failed — check your connection.";
+    document.getElementById("submit-error").style.display="block";
+  }
+}
+
+function resetApp() {
+  state = {van:null,driver:"",odometer:"",milesDriven:null,riders:[],checklist:{},checkNotes:{},comments:"",step:0};
+  document.getElementById("van-grid").innerHTML="";
+  buildVanGrid(); goToStep(0);
+}
 </script>
 
 <!-- Admin notice -->
@@ -197,10 +566,6 @@ const AT_TABLE   = "tblESoZQVB6PDeFhW"; // Daily Logs
     <label class="label">Starting Odometer</label>
     <input class="input-large" id="odometer-input" type="number" placeholder="00000">
   </div>
-  <div class="field">
-    <label class="label">Ending Odometer</label>
-    <input class="input-large" id="odometer-end-input" type="number" placeholder="00000">
-  </div>
   <div class="nav-btns">
     <button class="back-btn" onclick="goToStep(0)">← Back</button>
     <button class="next-btn" onclick="goToStep(2)">Next: Riders →</button>
@@ -259,8 +624,6 @@ const AT_TABLE   = "tblESoZQVB6PDeFhW"; // Daily Logs
     <div class="review-card"><div class="review-val" id="rv-van">—</div><div class="review-label">Van</div></div>
     <div class="review-card"><div class="review-val" id="rv-driver">—</div><div class="review-label">Driver</div></div>
     <div class="review-card"><div class="review-val" id="rv-odo">—</div><div class="review-label">Start Odometer</div></div>
-    <div class="review-card"><div class="review-val" id="rv-odo-end">—</div><div class="review-label">End Odometer</div></div>
-    <div class="review-card"><div class="review-val" id="rv-miles">—</div><div class="review-label">Miles Today</div></div>
     <div class="review-card"><div class="review-val" id="rv-riders">—</div><div class="review-label">Riders Today</div></div>
     <div class="review-card"><div class="review-val" id="rv-check">—</div><div class="review-label">Checklist</div></div>
     <div class="review-card"><div class="review-val" id="rv-date">—</div><div class="review-label">Date</div></div>
@@ -285,7 +648,7 @@ const AT_TABLE   = "tblESoZQVB6PDeFhW"; // Daily Logs
   <div class="success-box">
     <div class="success-circle">✓</div>
     <div class="success-title">Log Submitted!</div>
-    <div class="success-body" id="success-body">Your daily log has been recorded.</div>
+    <div class="success-body" id="success-body"></div>
     <div class="success-stats">
       <div class="success-stat">
         <div class="success-val" id="s-riders">0</div>
@@ -294,435 +657,17 @@ const AT_TABLE   = "tblESoZQVB6PDeFhW"; // Daily Logs
       <div class="success-divider"></div>
       <div class="success-stat">
         <div class="success-val" id="s-odo">—</div>
-        <div class="success-slabel">Odometer</div>
+        <div class="success-slabel">Start Odometer</div>
+      </div>
+      <div class="success-divider"></div>
+      <div class="success-stat">
+        <div class="success-val" id="s-miles">—</div>
+        <div class="success-slabel">Miles Driven</div>
       </div>
     </div>
     <button class="submit-btn" onclick="resetApp()">Start New Log</button>
   </div>
 </div>
 
-<script>
-// ══════════════════════════════════════════════
-//  VAN ROSTERS
-// ══════════════════════════════════════════════
-const VAN_ROSTERS = {
-  "Van 5":  { driver: "Robert Johnson", riders: [
-    { name: "Keith White",    isDriver: false },
-    { name: "Robert Johnson", isDriver: true  },
-  ]},
-  "Van 6":  { driver: "Eric Schile", riders: [
-    { name: "Eric Schile",      isDriver: true  },
-    { name: "Dom Winder",       isDriver: false },
-    { name: "Jonathan Speare",  isDriver: false },
-    { name: "Dario Steinhardt", isDriver: false },
-  ]},
-  "Van 9":  { driver: "Dustin Thompson", riders: [
-    { name: "Dustin Thompson", isDriver: true  },
-    { name: "Mike Paul",       isDriver: false },
-  ]},
-  "Van 16": { driver: "Laura Bess", riders: [
-    { name: "Laura Bess",   isDriver: true  },
-    { name: "Karen",        isDriver: false },
-    { name: "Stacey",       isDriver: false },
-    { name: "Mark Livesay", isDriver: true  },
-    { name: "Ceara",        isDriver: false },
-    { name: "Sydney",       isDriver: false },
-    { name: "Therese",      isDriver: false },
-  ]},
-  "Van 17": { driver: "Ron Betts", riders: [
-    { name: "Ron Betts",        isDriver: true  },
-    { name: "Therese Elkinton", isDriver: false },
-  ]},
-  "Van 18": { driver: "Vanessa Janckila", riders: [
-    { name: "Casey",            isDriver: false },
-    { name: "Vanessa Janckila", isDriver: true  },
-    { name: "Bob Larson",       isDriver: false },
-    { name: "Eric Sylvester",   isDriver: false },
-  ]},
-  "Van 23": { driver: "Eric Schile", riders: [
-    { name: "Greg Koniges",      isDriver: true  },
-    { name: "Kevin Keeley",      isDriver: true  },
-    { name: "Prakash Paruchuri", isDriver: true  },
-    { name: "Eric Schile",       isDriver: true  },
-    { name: "Dom Winder",        isDriver: false },
-    { name: "Jacob Zipp",        isDriver: false },
-    { name: "Jonathan Speare",   isDriver: false },
-    { name: "Dario Steinhardt",  isDriver: false },
-    { name: "Hunter Hickes",     isDriver: false },
-  ]},
-};
-
-const CHECKLIST_ITEMS = [
-  { id: "damage",   icon: "🪟", label: "No damage to mirrors, windows, or body" },
-  { id: "tires",    icon: "🛞", label: "Tires — no cuts, proper inflation"       },
-  { id: "lights",   icon: "💡", label: "All lights & signals working"            },
-  { id: "clear",    icon: "🚦", label: "Clear to move — no obstructions"         },
-  { id: "fuel",     icon: "⛽", label: "Fuel level above half tank"              },
-  { id: "wipers",   icon: "🌧️", label: "Windshield wipers functional"            },
-  { id: "interior", icon: "🪑", label: "Interior clean & clear of hazards"       },
-];
-
-const TRIP_LABELS = { both: "Both Ways", am: "AM Only", pm: "PM Only", out: "Not Today" };
-
-let state = {
-  van: null, driver: "", odometer: "",
-  riders: [], checklist: {}, checkNotes: {}, comments: "", odometer: "", odometerEnd: "", step: 0
-};
-
-// ══════════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════════
-window.addEventListener("DOMContentLoaded", () => {
-  const now = new Date();
-  document.getElementById("welcome-date").textContent =
-    now.toLocaleDateString("en-US", { weekday:"long", month:"long", day:"numeric", year:"numeric" });
-  buildVanGrid();
-  initAdminNotice();
-});
-
-// ══════════════════════════════════════════════
-//  ADMIN NOTICE
-// ══════════════════════════════════════════════
-const ADMIN_NOTICE = "";
-function initAdminNotice() {
-  const msg = ADMIN_NOTICE || localStorage.getItem("iride_notice") || "";
-  const dismissed = sessionStorage.getItem("notice_dismissed");
-  if (msg && !dismissed) {
-    document.getElementById("notice-text").textContent = msg;
-    document.getElementById("admin-notice").style.display = "flex";
-  }
-}
-function dismissNotice() {
-  sessionStorage.setItem("notice_dismissed","1");
-  document.getElementById("admin-notice").style.display = "none";
-}
-function setAdminNotice(msg) { localStorage.setItem("iride_notice", msg); location.reload(); }
-function clearAdminNotice() { localStorage.removeItem("iride_notice"); location.reload(); }
-
-// ══════════════════════════════════════════════
-//  VAN GRID
-// ══════════════════════════════════════════════
-function buildVanGrid() {
-  const grid = document.getElementById("van-grid");
-  Object.entries(VAN_ROSTERS).forEach(([vanId, data]) => {
-    const card = document.createElement("button");
-    card.className = "van-card";
-    card.innerHTML = `
-      <div class="van-accent"></div>
-      <div class="van-name">${vanId}</div>
-      <div class="van-driver">${data.driver || "No designated driver"}</div>
-      <div class="van-count">${data.riders.length} riders</div>`;
-    card.onclick = () => selectVan(vanId);
-    grid.appendChild(card);
-  });
-}
-
-// ══════════════════════════════════════════════
-//  NAVIGATION
-// ══════════════════════════════════════════════
-function selectVan(vanId) {
-  state.van = vanId;
-  state.driver = VAN_ROSTERS[vanId].driver || "";
-  state.riders = VAN_ROSTERS[vanId].riders.map(r => ({ ...r, status: "both" }));
-  state.checklist = {};
-  state.checkNotes = {};
-  CHECKLIST_ITEMS.forEach(c => { state.checklist[c.id] = null; state.checkNotes[c.id] = ""; });
-  buildRiderList();
-  buildChecklist();
-  goToStep(1);
-}
-
-function goToStep(step) {
-  state.step = step;
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  document.getElementById("page-" + step).classList.add("active");
-  document.getElementById("cancel-btn").style.display = step > 0 && step < 5 ? "block" : "none";
-  document.getElementById("progress-wrap").style.display = step > 0 && step < 5 ? "flex" : "none";
-  if (step > 0 && step < 5) updateProgress(step - 1);
-  if (step === 1) {
-    const picks = document.getElementById("driver-quick-picks");
-    picks.innerHTML = "";
-    const drivers = VAN_ROSTERS[state.van].riders.filter(r => r.isDriver).map(r => r.name);
-    drivers.forEach(name => {
-      const btn = document.createElement("button");
-      btn.className = "quick-btn" + (state.driver === name ? " active" : "");
-      btn.textContent = name.split(" ")[0];
-      btn.onclick = () => {
-        state.driver = name;
-        document.getElementById("driver-input").value = name;
-        document.querySelectorAll("#driver-quick-picks .quick-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-      };
-      picks.appendChild(btn);
-    });
-    document.getElementById("driver-input").value = state.driver;
-    document.getElementById("odometer-input").value = state.odometer;
-  }
-  ["1","2","3","4"].forEach(i => {
-    const el = document.getElementById("step-van-"+i);
-    const dt = document.getElementById("step-date-"+i);
-    if (el) el.textContent = state.van || "";
-    if (dt) dt.textContent = new Date().toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
-  });
-  if (step === 4) buildReview();
-  window.scrollTo(0, 0);
-}
-
-function updateProgress(activeIdx) {
-  [0,1,2,3].forEach(i => {
-    const seg = document.getElementById("seg-"+i);
-    seg.className = "progress-seg" + (i < activeIdx ? " done" : i === activeIdx ? " active" : "");
-  });
-}
-
-function cancelLog() {
-  state = { van:null, driver:"", odometer:"", riders:[], checklist:{}, checkNotes:{}, comments:"", step:0 };
-  goToStep(0);
-}
-
-// ══════════════════════════════════════════════
-//  RIDER LIST
-// ══════════════════════════════════════════════
-function buildRiderList() {
-  const list = document.getElementById("rider-list");
-  list.innerHTML = "";
-  state.riders.forEach((rider, idx) => {
-    const card = document.createElement("div");
-    card.className = "rider-card";
-    card.id = "rider-card-" + idx;
-    card.innerHTML = `
-      <div class="rider-top">
-        <span class="rider-name">${rider.name}</span>
-        ${rider.isDriver ? '<span class="driver-badge">Driver</span>' : ""}
-      </div>
-      <div class="trip-btns">
-        ${["both","am","pm","out"].map(s => `
-          <button class="trip-btn ${rider.status===s ? s : ""}"
-            onclick="setRiderStatus(${idx},'${s}')">
-            ${s==="both"?"Both":s==="am"?"AM Only":s==="pm"?"PM Only":"Not Today"}
-          </button>`).join("")}
-      </div>`;
-    list.appendChild(card);
-  });
-}
-
-function setRiderStatus(idx, status) {
-  state.riders[idx].status = status;
-  const card = document.getElementById("rider-card-" + idx);
-  card.querySelectorAll(".trip-btn").forEach((btn, i) => {
-    const s = ["both","am","pm","out"][i];
-    btn.className = "trip-btn" + (status === s ? " " + s : "");
-  });
-}
-
-function addRiderFromInput() {
-  const input = document.getElementById("add-rider-input");
-  const name  = input.value.trim();
-  if (!name) return;
-  state.riders.push({ name, isDriver: false, status: "both" });
-  input.value = "";
-  buildRiderList();
-}
-
-// ══════════════════════════════════════════════
-//  CHECKLIST
-// ══════════════════════════════════════════════
-function buildChecklist() {
-  const el = document.getElementById("checklist");
-  el.innerHTML = "";
-  CHECKLIST_ITEMS.forEach(item => {
-    const row = document.createElement("div");
-    row.className = "check-row";
-    row.id = "check-row-" + item.id;
-    row.innerHTML = `
-      <div class="check-top">
-        <span class="check-icon">${item.icon}</span>
-        <span class="check-label">${item.label}</span>
-      </div>
-      <div class="check-btns">
-        <button class="check-opt" id="opt-good-${item.id}" onclick="setCheckStatus('${item.id}','good')">✓ Good</button>
-        <button class="check-opt" id="opt-issue-${item.id}" onclick="setCheckStatus('${item.id}','issue')">⚠ Issue</button>
-      </div>
-      <div class="check-issue-note" id="note-wrap-${item.id}">
-        <textarea class="check-issue-input" id="note-${item.id}" rows="2"
-          placeholder="Describe the issue…"
-          oninput="state.checkNotes['${item.id}']=this.value"></textarea>
-      </div>`;
-    el.appendChild(row);
-  });
-}
-
-function setCheckStatus(id, status) {
-  state.checklist[id] = status;
-  const row      = document.getElementById("check-row-" + id);
-  const goodBtn  = document.getElementById("opt-good-" + id);
-  const issueBtn = document.getElementById("opt-issue-" + id);
-  const noteWrap = document.getElementById("note-wrap-" + id);
-  row.classList.remove("good-row","issue-row");
-  goodBtn.classList.remove("good-active");
-  issueBtn.classList.remove("issue-active");
-  if (status === "good") {
-    row.classList.add("good-row");
-    goodBtn.classList.add("good-active");
-    noteWrap.classList.remove("visible");
-  } else {
-    row.classList.add("issue-row");
-    issueBtn.classList.add("issue-active");
-    noteWrap.classList.add("visible");
-    document.getElementById("note-" + id).focus();
-  }
-  updateCheckProgress();
-}
-
-function updateCheckProgress() {
-  const answered = Object.values(state.checklist).filter(v => v !== null).length;
-  const total    = CHECKLIST_ITEMS.length;
-  const allDone  = answered === total;
-  const issues   = Object.values(state.checklist).filter(v => v === "issue").length;
-  document.getElementById("check-fill").style.width = (answered/total*100) + "%";
-  document.getElementById("check-count").textContent = answered + "/" + total;
-  const allClearEl = document.getElementById("all-clear");
-  if (allDone) {
-    allClearEl.style.display = "block";
-    if (issues === 0) {
-      allClearEl.style.cssText = "background:var(--greenbg);border:1px solid var(--greenbdr);color:var(--green);border-radius:10px;padding:12px 14px;font-size:14px;font-weight:600;margin-bottom:20px";
-      allClearEl.textContent = "✅ All items checked — van is clear for departure!";
-    } else {
-      allClearEl.style.cssText = "background:var(--amberbg);border:1px solid var(--amberbdr);color:var(--amber);border-radius:10px;padding:12px 14px;font-size:14px;font-weight:600;margin-bottom:20px";
-      allClearEl.textContent = `⚠️ ${issues} issue${issues>1?"s":""} noted — coordinator will be informed.`;
-    }
-  } else {
-    allClearEl.style.display = "none";
-  }
-  document.getElementById("checklist-warning").style.display = "none";
-  document.getElementById("next-btn-3").disabled = !allDone;
-}
-
-function tryGoToReview() {
-  const answered = Object.values(state.checklist).filter(v => v !== null).length;
-  if (answered < CHECKLIST_ITEMS.length) {
-    document.getElementById("checklist-warning").style.display = "block";
-    for (const item of CHECKLIST_ITEMS) {
-      if (state.checklist[item.id] === null) {
-        document.getElementById("check-row-" + item.id).scrollIntoView({ behavior:"smooth", block:"center" });
-        break;
-      }
-    }
-    return;
-  }
-  goToStep(4);
-}
-
-// ══════════════════════════════════════════════
-//  REVIEW
-// ══════════════════════════════════════════════
-function buildReview() {
-  state.driver      = document.getElementById("driver-input").value.trim() || state.driver;
-  state.odometer    = document.getElementById("odometer-input").value.trim();
-  state.odometerEnd = document.getElementById("odometer-end-input").value.trim();
-  state.comments    = document.getElementById("comments-input").value.trim();
-  const riding      = state.riders.filter(r => r.status !== "out").length;
-  const issues      = Object.values(state.checklist).filter(v => v === "issue").length;
-  const miles       = (state.odometer && state.odometerEnd)
-    ? parseInt(state.odometerEnd) - parseInt(state.odometer) : null;
-  document.getElementById("rv-van").textContent     = state.van;
-  document.getElementById("rv-driver").textContent  = state.driver || "—";
-  document.getElementById("rv-odo").textContent     = state.odometer ? parseInt(state.odometer).toLocaleString() : "—";
-  document.getElementById("rv-odo-end").textContent = state.odometerEnd ? parseInt(state.odometerEnd).toLocaleString() : "—";
-  document.getElementById("rv-miles").textContent   = miles !== null && miles >= 0 ? miles + " mi" : "—";
-  document.getElementById("rv-riders").textContent  = riding;
-  document.getElementById("rv-date").textContent    = new Date().toLocaleDateString("en-US",{month:"short",day:"numeric"});
-  const rvCheckEl = document.getElementById("rv-check");
-  if (issues > 0) { rvCheckEl.textContent = issues + " Issue" + (issues>1?"s":""); rvCheckEl.style.color = "var(--amber)"; }
-  else { rvCheckEl.textContent = "All Clear ✓"; rvCheckEl.style.color = "var(--green)"; }
-  const reviewRiders = document.getElementById("review-riders");
-  reviewRiders.innerHTML = state.riders.map(r => `
-    <div class="review-rider-row">
-      <span class="review-rider-name">${r.name}</span>
-      <span class="review-rider-status status-${r.status}">${TRIP_LABELS[r.status]}</span>
-    </div>`).join("");
-}
-
-// ══════════════════════════════════════════════
-//  SUBMIT TO AIRTABLE
-// ══════════════════════════════════════════════
-async function submitLog() {
-  state.driver   = document.getElementById("driver-input").value.trim() || state.driver;
-  state.odometer = document.getElementById("odometer-input").value.trim();
-  state.comments = document.getElementById("comments-input").value.trim();
-  if (!state.driver) {
-    document.getElementById("submit-error").textContent = "Please enter the driver name.";
-    document.getElementById("submit-error").style.display = "block";
-    return;
-  }
-  const btn = document.getElementById("submit-btn");
-  btn.textContent = "Submitting…";
-  btn.classList.add("loading");
-  btn.disabled = true;
-  document.getElementById("submit-error").style.display = "none";
-
-  const now      = new Date();
-  const dateStr  = now.toISOString().split("T")[0];
-  const riding   = state.riders.filter(r => r.status !== "out").length;
-  const allClear = Object.values(state.checklist).every(v => v === "good");
-  const issues   = CHECKLIST_ITEMS
-    .filter(c => state.checklist[c.id] === "issue")
-    .map(c => c.label + (state.checkNotes[c.id] ? ": " + state.checkNotes[c.id] : ""))
-    .join("; ");
-
-  // Build Airtable fields object
-  // Field names must match exactly what Airtable AI created
-  const odometerEnd = document.getElementById("odometer-end-input").value.trim();
-  const miles = (state.odometer && odometerEnd)
-    ? parseInt(odometerEnd) - parseInt(state.odometer) : null;
-
-  const fields = {
-    "Van Number":        state.van,
-    "Date":              dateStr,
-    "Driver Name":       state.driver,
-    "Starting Odometer": state.odometer ? parseInt(state.odometer) : null,
-    "Ending Odometer":   odometerEnd ? parseInt(odometerEnd) : null,
-    "Miles Driven":      miles !== null && miles >= 0 ? miles : null,
-    "Number of Riders":  riding,
-    "Pre-Trip Safety Checklist Passed": allClear ? "Yes" : "No",
-    "Comments":          state.comments,
-    "Riders":            state.riders.filter(r => r.status !== "out").map(r => r.name).join(", "),
-  };
-
-  try {
-    const res = await fetch(`https://api.airtable.com/v0/${AT_BASE}/${AT_TABLE}`, {
-      method: "POST",
-      headers: {
-        "Authorization": "Bearer " + AT_TOKEN,
-        "Content-Type":  "application/json",
-      },
-      body: JSON.stringify({ fields }),
-    });
-    const json = await res.json();
-    if (!res.ok) throw new Error(JSON.stringify(json.error) || "Airtable error");
-
-    document.getElementById("s-riders").textContent = riding;
-    document.getElementById("s-odo").textContent    = state.odometer ? parseInt(state.odometer).toLocaleString() : "—";
-    document.getElementById("success-body").textContent =
-      state.van + " · " + state.driver + " · " +
-      now.toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"});
-    goToStep(5);
-
-  } catch(err) {
-    btn.textContent = "Submit Daily Log →";
-    btn.classList.remove("loading");
-    btn.disabled = false;
-    document.getElementById("submit-error").textContent = "Submission failed: " + err.message + ". Check your connection.";
-    document.getElementById("submit-error").style.display = "block";
-  }
-}
-
-function resetApp() {
-  state = { van:null, driver:"", odometer:"", riders:[], checklist:{}, checkNotes:{}, comments:"", step:0 };
-  document.getElementById("van-grid").innerHTML = "";
-  buildVanGrid();
-  goToStep(0);
-}
-</script>
 </body>
 </html>
