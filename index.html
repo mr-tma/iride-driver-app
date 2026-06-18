@@ -684,10 +684,8 @@ async function submitLog() {
     "Ending Odometer":   odometerEnd ? parseInt(odometerEnd) : null,
     "Miles Driven":      miles !== null && miles >= 0 ? miles : null,
     "Number of Riders":  riding,
-    "Pre-Trip Safety":   allClear ? "Yes" : "No",
-    "Checklist Issues":  issues || "None",
+    "Pre-Trip Safety Checklist Passed": allClear ? "Yes" : "No",
     "Comments":          state.comments,
-    "Timestamp":         now.toISOString(),
     "Riders":            state.riders.filter(r => r.status !== "out").map(r => r.name).join(", "),
   };
 
