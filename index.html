@@ -414,24 +414,19 @@ async function getPreviousOdometer(vanId) {
     // Trim and lowercase headers for flexible matching
     const vanIdx  = headers.findIndex(h => h.trim().toLowerCase() === "van");
     const odoIdx  = headers.findIndex(h => h.trim().toLowerCase() === "starting odometer");
-    console.log("Headers found:", headers);
-    console.log("Van index:", vanIdx, "Odo index:", odoIdx);
     if (vanIdx < 0 || odoIdx < 0) return null;
     // Find all rows for this van, get the last one
     let lastOdo = null;
     for (let i = 1; i < lines.length; i++) {
       const cols = splitCSV(lines[i]);
       const rowVan = (cols[vanIdx]||"").trim();
-      console.log("Row", i, "van:", rowVan, "odo:", cols[odoIdx]);
       if (rowVan === vanId.trim()) {
         const odo = parseInt(cols[odoIdx]);
         if (!isNaN(odo)) lastOdo = odo;
       }
     }
-    console.log("Last odometer for", vanId, ":", lastOdo);
     return lastOdo;
   } catch(e) {
-    console.log("getPreviousOdometer error:", e.message);
     return null;
   }
 }
