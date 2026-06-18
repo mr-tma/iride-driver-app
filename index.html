@@ -699,7 +699,7 @@ async function submitLog() {
       body: JSON.stringify({ fields }),
     });
     const json = await res.json();
-    if (!res.ok) throw new Error(json.error?.message || "Airtable error");
+    if (!res.ok) throw new Error(JSON.stringify(json.error) || "Airtable error");
 
     document.getElementById("s-riders").textContent = riding;
     document.getElementById("s-odo").textContent    = state.odometer ? parseInt(state.odometer).toLocaleString() : "—";
