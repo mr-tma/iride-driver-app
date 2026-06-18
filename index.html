@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1A2A5E">
+<title>IRide Vanpool — Daily Log</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'DM Sans',system-ui,sans-serif;background:#F8F9FC;color:#0F1D3D;min-height:100vh;max-width:500px;margin:0 auto;-webkit-tap-highlight-color:transparent}
+button{cursor:pointer;font-family:inherit}
+input,textarea{font-family:inherit}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+:root{
+  --navy:#1A2A5E;--navymid:#2B4C9B;--steel:#3D6BAE;--sky:#5B9BD5;--skylight:#C4DCF0;
+  --white:#FFFFFF;--off:#F8F9FC;--lgray:#E8EDF6;--mgray:#8899B8;--dark:#0F1D3D;
+  --green:#0E7A45;--greenbg:#F0FAF4;--greenbdr:#B3DFC5;
+  --amber:#B05E10;--amberbg:#FDF6EE;--amberbdr:#F0C88A;
+  --red:#A01818;--redbg:#FDF0F0;--redbdr:#E8AAAA;
+}
+.header{background:var(--white);border-bottom:1px solid var(--lgray);position:sticky;top:0;z-index:100}
+.header-row{display:flex;justify-content:space-between;align-items:center;padding:14px 20px}
+.cancel-btn{background:transparent;border:1px solid var(--lgray);color:var(--mgray);padding:7px 16px;border-radius:100px;font-size:13px;font-weight:500;transition:all 0.15s}
+.progress-wrap{display:flex;gap:3px;padding:0 20px 12px}
+.progress-seg{flex:1;height:3px;border-radius:2px;background:var(--lgray);transition:all 0.3s}
+.progress-seg.done{background:var(--navy)}
+.progress-seg.active{background:var(--sky)}
+.page{padding:28px 20px 110px;display:none;animation:fadeUp 0.2s ease}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.welcome{text-align:center;padding:12px 0 32px}
+.welcome-date{font-size:11px;color:var(--mgray);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;font-weight:500}
+.welcome-title{font-size:28px;font-weight:700;color:var(--navy);margin-bottom:6px;letter-spacing:-0.5px}
+.welcome-sub{font-size:14px;color:var(--mgray)}
+.van-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.van-card{background:var(--white);border:1px solid var(--lgray);border-radius:14px;padding:0 14px 16px;text-align:left;color:var(--dark);transition:all 0.15s;overflow:hidden}
+.van-card:active{border-color:var(--navy);box-shadow:0 0 0 3px rgba(26,42,94,0.08)}
+.van-accent{height:3px;background:var(--navy);margin:0 -14px 14px}
+.van-name{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:4px;letter-spacing:-0.2px}
+.van-driver{font-size:12px;color:var(--steel);margin-bottom:4px;font-weight:500}
+.van-count{font-size:11px;color:var(--mgray)}
+.step-head{margin-bottom:28px}
+.step-van{font-size:11px;color:var(--mgray);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600}
+.step-title{font-size:24px;color:var(--navy);font-weight:700;letter-spacing:-0.4px}
+.step-date{font-size:13px;color:var(--mgray);margin-top:4px}
+.field{margin-bottom:24px}
+.label{display:block;font-size:11px;color:var(--mgray);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px;font-weight:600}
+.input{width:100%;background:var(--white);border:1px solid var(--lgray);color:var(--dark);padding:13px 15px;border-radius:10px;font-size:16px;font-family:inherit;outline:none;transition:all 0.15s}
+.input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(26,42,94,0.08)}
+.input-large{width:100%;background:var(--white);border:1px solid var(--lgray);color:var(--navy);padding:14px 15px;border-radius:10px;font-size:28px;font-weight:700;font-family:'DM Mono',monospace;outline:none;transition:all 0.15s;letter-spacing:-0.5px}
+.input-large:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(26,42,94,0.08)}
+.quick-picks{display:flex;align-items:center;gap:6px;margin-top:10px;flex-wrap:wrap}
+.quick-label{font-size:11px;color:var(--mgray);font-weight:500}
+.quick-btn{padding:5px 14px;border-radius:100px;border:1px solid var(--lgray);color:var(--steel);background:var(--white);font-size:13px;font-family:inherit;font-weight:500;transition:all 0.15s}
+.quick-btn.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
+.hint{font-size:13px;color:var(--mgray);margin-top:-12px;margin-bottom:20px;line-height:1.5}
+.rider-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.rider-card{background:var(--white);border:1px solid var(--lgray);border-radius:12px;padding:14px;transition:border-color 0.15s}
+.rider-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.rider-name{font-size:15px;font-weight:600;color:var(--dark);flex:1;letter-spacing:-0.1px}
+.driver-badge{font-size:10px;background:#EDF2FB;color:var(--navy);padding:2px 9px;border-radius:100px;border:1px solid var(--skylight);text-transform:uppercase;letter-spacing:0.8px;font-weight:600}
+.trip-btns{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px}
+.trip-btn{padding:9px 4px;border-radius:8px;border:1px solid var(--lgray);font-size:11px;font-weight:500;text-align:center;background:var(--white);color:var(--mgray);transition:all 0.15s}
+.trip-btn.both{background:var(--navy);color:var(--white);border-color:var(--navy);font-weight:600}
+.trip-btn.am{background:#EEF4FB;color:var(--steel);border-color:var(--skylight);font-weight:600}
+.trip-btn.pm{background:#F2F5FB;color:#4A6FA5;border-color:#BDD0EA;font-weight:600}
+.trip-btn.out{background:var(--off);color:var(--mgray);border-color:var(--lgray)}
+.add-rider-row{display:flex;gap:8px;margin-top:4px;margin-bottom:24px}
+.add-btn{background:var(--navy);color:var(--white);border:none;padding:13px 18px;border-radius:10px;font-size:14px;font-weight:600;font-family:inherit;white-space:nowrap;transition:background 0.15s}
+.checklist{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.check-row{background:var(--white);border:1px solid var(--lgray);border-radius:12px;overflow:hidden;transition:border-color 0.2s}
+.check-row.good-row{border-color:var(--greenbdr)}
+.check-row.issue-row{border-color:var(--amberbdr)}
+.check-top{display:flex;align-items:center;gap:12px;padding:13px 14px 10px}
+.check-icon{font-size:18px;flex-shrink:0}
+.check-label{flex:1;font-size:14px;line-height:1.4;color:var(--dark)}
+.check-btns{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--lgray)}
+.check-opt{padding:11px 8px;border:none;font-size:13px;font-weight:600;cursor:pointer;text-align:center;font-family:inherit;background:var(--off);color:var(--mgray);transition:all 0.15s;-webkit-tap-highlight-color:transparent}
+.check-opt:first-child{border-right:1px solid var(--lgray)}
+.check-opt.good-active{background:var(--greenbg);color:var(--green)}
+.check-opt.issue-active{background:var(--amberbg);color:var(--amber)}
+.check-issue-note{padding:0 14px 12px;display:none}
+.check-issue-note.visible{display:block}
+.check-issue-input{width:100%;background:var(--amberbg);border:1px solid var(--amberbdr);color:var(--dark);padding:9px 12px;border-radius:8px;font-size:13px;font-family:inherit;outline:none;resize:none}
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.prog-track{flex:1;height:4px;background:var(--lgray);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:var(--navy);border-radius:2px;transition:width 0.3s}
+.prog-count{font-size:13px;color:var(--mgray);font-weight:500;font-variant-numeric:tabular-nums}
+.all-clear{background:var(--greenbg);border:1px solid var(--greenbdr);color:var(--green);border-radius:10px;padding:12px 14px;font-size:14px;font-weight:600;margin-bottom:20px}
+.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.review-card{background:var(--white);border:1px solid var(--lgray);border-radius:12px;padding:16px;text-align:center}
+.review-val{font-size:22px;font-weight:700;color:var(--navy);margin-bottom:4px;letter-spacing:-0.5px;font-variant-numeric:tabular-nums}
+.review-label{font-size:11px;color:var(--mgray);text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.review-section{background:var(--white);border:1px solid var(--lgray);border-radius:12px;overflow:hidden;margin-bottom:20px}
+.review-section-head{font-size:11px;color:var(--mgray);text-transform:uppercase;letter-spacing:1.2px;padding:10px 14px;border-bottom:1px solid var(--lgray);font-weight:600;background:var(--off)}
+.review-rider-row{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid var(--off)}
+.review-rider-name{font-size:14px;color:var(--dark)}
+.review-rider-status{font-size:13px;font-weight:600}
+.status-both{color:var(--navy)}.status-am{color:var(--steel)}.status-pm{color:#4A6FA5}.status-out{color:var(--mgray)}
+textarea{width:100%;background:var(--white);border:1px solid var(--lgray);color:var(--dark);padding:12px 14px;border-radius:10px;font-size:14px;font-family:inherit;resize:vertical;outline:none;min-height:80px;transition:all 0.15s}
+textarea:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(26,42,94,0.08)}
+.warn-box{background:var(--amberbg);border:1px solid var(--amberbdr);color:var(--amber);border-radius:10px;padding:12px 14px;font-size:13px;margin-bottom:14px;line-height:1.5}
+.err-box{background:var(--redbg);border:1px solid var(--redbdr);color:var(--red);border-radius:10px;padding:12px 14px;font-size:13px;margin-bottom:14px;line-height:1.5}
+.submit-btn{width:100%;background:var(--navy);color:var(--white);border:none;padding:17px;border-radius:12px;font-size:16px;font-weight:600;font-family:inherit;margin-bottom:12px;transition:all 0.15s;-webkit-appearance:none}
+.submit-btn:active{transform:scale(0.99)}
+.submit-btn.loading{background:var(--mgray)}
+.back-btn{background:var(--white);border:1px solid var(--lgray);color:var(--mgray);padding:13px 20px;border-radius:10px;font-size:15px;font-family:inherit;font-weight:500;transition:all 0.15s}
+.next-btn{flex:1;background:var(--navy);color:var(--white);border:none;padding:14px;border-radius:10px;font-size:16px;font-weight:600;font-family:inherit;transition:all 0.15s}
+.next-btn:active{transform:scale(0.99)}
+.next-btn:disabled{background:var(--lgray);color:var(--mgray)}
+.nav-btns{display:flex;gap:10px;margin-top:16px}
+.success-box{text-align:center;padding:52px 0}
+.success-circle{width:72px;height:72px;border-radius:50%;background:var(--navy);color:var(--white);font-size:34px;display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
+.success-title{font-size:28px;font-weight:700;color:var(--navy);margin-bottom:8px;letter-spacing:-0.5px}
+.success-body{font-size:14px;color:var(--mgray);margin-bottom:32px;line-height:1.6}
+.success-stats{display:flex;justify-content:center;align-items:center;gap:32px;margin-bottom:32px;background:var(--white);border:1px solid var(--lgray);border-radius:16px;padding:24px}
+.success-stat{text-align:center}
+.success-val{font-size:36px;font-weight:700;color:var(--navy);letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.success-slabel{font-size:11px;color:var(--mgray);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-top:4px}
+.success-divider{width:1px;height:40px;background:var(--lgray)}
+/* Admin notice */
+#admin-notice{background:var(--navy);color:var(--white);padding:10px 20px;font-size:13px;display:none;justify-content:space-between;align-items:flex-start;gap:12px}
+#admin-notice .notice-head{font-weight:700;margin-bottom:3px;font-size:12px;opacity:0.7;text-transform:uppercase;letter-spacing:1px}
+#admin-notice .dismiss{background:none;border:none;color:rgba(255,255,255,0.5);font-size:18px;line-height:1;padding:0;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<script>
+// ══════════════════════════════════════════════
+//  AIRTABLE CONFIG
+// ══════════════════════════════════════════════
+const AT_TOKEN   = "patzQtrxUxjIiVxFf.6040a0dead42e311821fc7cb1caaed96fdee8a06eb75e7d4556f7748cb38588d";
+const AT_BASE    = "appLPsKjIas8sWlu6";
+const AT_TABLE   = "tblESoZQVB6PDeFhW"; // Daily Logs
+</script>
+
+<!-- Admin notice -->
+<div id="admin-notice">
+  <div>
+    <div class="notice-head">📢 Notice from MRTMA Coordinator</div>
+    <div id="notice-text"></div>
+  </div>
+  <button class="dismiss" onclick="dismissNotice()">✕</button>
+</div>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-row">
+    <svg width="100" height="34" viewBox="0 0 148 48" fill="none">
+      <ellipse cx="15" cy="11" rx="13" ry="8" fill="#2B4C9B" stroke="#1A2A5E" stroke-width="1.2"/>
+      <text x="15" y="14.5" text-anchor="middle" font-size="5.2" font-weight="800" font-family="DM Sans,sans-serif" fill="white" letter-spacing="0.4">MRTMA</text>
+      <text x="4" y="42" font-size="40" font-weight="900" font-style="italic" font-family="Georgia,serif" fill="#1A2A5E">i</text>
+      <text x="26" y="42" font-size="38" font-weight="900" font-style="italic" font-family="Georgia,serif" fill="#2B4C9B">ride</text>
+      <text x="42" y="48" font-size="17" font-weight="700" font-style="italic" font-family="Georgia,serif" fill="#5B9BD5">vanpool</text>
+    </svg>
+    <button class="cancel-btn" id="cancel-btn" onclick="cancelLog()" style="display:none">Cancel</button>
+  </div>
+  <div class="progress-wrap" id="progress-wrap" style="display:none">
+    <div class="progress-seg" id="seg-0"></div>
+    <div class="progress-seg" id="seg-1"></div>
+    <div class="progress-seg" id="seg-2"></div>
+    <div class="progress-seg" id="seg-3"></div>
+  </div>
+</div>
+
+<!-- PAGE 0: Van Select -->
+<div class="page active" id="page-0">
+  <div class="welcome">
+    <div class="welcome-date" id="welcome-date"></div>
+    <div class="welcome-title">Good morning! 👋</div>
+    <div class="welcome-sub">Select your van to begin today's log</div>
+  </div>
+  <div class="van-grid" id="van-grid"></div>
+</div>
+
+<!-- PAGE 1: Driver + Odometer -->
+<div class="page" id="page-1">
+  <div class="step-head">
+    <div class="step-van" id="step-van-1"></div>
+    <div class="step-title">Driver & Odometer</div>
+    <div class="step-date" id="step-date-1"></div>
+  </div>
+  <div class="field">
+    <label class="label">Driver Name</label>
+    <input class="input" id="driver-input" type="text" placeholder="Enter driver name">
+    <div class="quick-picks">
+      <span class="quick-label">Quick pick:</span>
+      <div id="driver-quick-picks"></div>
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Starting Odometer</label>
+    <input class="input-large" id="odometer-input" type="number" placeholder="00000">
+  </div>
+  <div class="nav-btns">
+    <button class="back-btn" onclick="goToStep(0)">← Back</button>
+    <button class="next-btn" onclick="goToStep(2)">Next: Riders →</button>
+  </div>
+</div>
+
+<!-- PAGE 2: Riders -->
+<div class="page" id="page-2">
+  <div class="step-head">
+    <div class="step-van" id="step-van-2"></div>
+    <div class="step-title">Rider Check-In</div>
+    <div class="step-date" id="step-date-2"></div>
+  </div>
+  <p class="hint">Set each rider's status for today.</p>
+  <div class="rider-list" id="rider-list"></div>
+  <div class="add-rider-row">
+    <input class="input" id="add-rider-input" placeholder="Add a rider not on list…" style="flex:1;font-size:14px"
+      onkeydown="if(event.key==='Enter'){addRiderFromInput();}">
+    <button class="add-btn" onclick="addRiderFromInput()">+ Add</button>
+  </div>
+  <div class="nav-btns">
+    <button class="back-btn" onclick="goToStep(1)">← Back</button>
+    <button class="next-btn" onclick="goToStep(3)">Next: Safety Check →</button>
+  </div>
+</div>
+
+<!-- PAGE 3: Safety Checklist -->
+<div class="page" id="page-3">
+  <div class="step-head">
+    <div class="step-van" id="step-van-3"></div>
+    <div class="step-title">Pre-Trip Safety Check</div>
+    <div class="step-date" id="step-date-3"></div>
+  </div>
+  <p class="hint">Mark each item Good or Issue. All items must be answered before continuing.</p>
+  <div class="prog-row">
+    <div class="prog-track"><div class="prog-fill" id="check-fill" style="width:0%"></div></div>
+    <span class="prog-count" id="check-count">0/7</span>
+  </div>
+  <div class="checklist" id="checklist"></div>
+  <div class="all-clear" id="all-clear" style="display:none"></div>
+  <div class="warn-box" id="checklist-warning" style="display:none">⚠️ All safety items must be answered before continuing.</div>
+  <div class="nav-btns">
+    <button class="back-btn" onclick="goToStep(2)">← Back</button>
+    <button class="next-btn" id="next-btn-3" onclick="tryGoToReview()" disabled>Next: Review →</button>
+  </div>
+</div>
+
+<!-- PAGE 4: Review & Submit -->
+<div class="page" id="page-4">
+  <div class="step-head">
+    <div class="step-van" id="step-van-4"></div>
+    <div class="step-title">Review & Submit</div>
+    <div class="step-date" id="step-date-4"></div>
+  </div>
+  <div class="review-grid">
+    <div class="review-card"><div class="review-val" id="rv-van">—</div><div class="review-label">Van</div></div>
+    <div class="review-card"><div class="review-val" id="rv-driver">—</div><div class="review-label">Driver</div></div>
+    <div class="review-card"><div class="review-val" id="rv-odo">—</div><div class="review-label">Odometer</div></div>
+    <div class="review-card"><div class="review-val" id="rv-riders">—</div><div class="review-label">Riders Today</div></div>
+    <div class="review-card"><div class="review-val" id="rv-check">—</div><div class="review-label">Checklist</div></div>
+    <div class="review-card"><div class="review-val" id="rv-date">—</div><div class="review-label">Date</div></div>
+  </div>
+  <div class="review-section">
+    <div class="review-section-head">Rider Status</div>
+    <div id="review-riders"></div>
+  </div>
+  <div class="field">
+    <label class="label">Driver Comments (optional)</label>
+    <textarea id="comments-input" placeholder="Any notes for the coordinator…"></textarea>
+  </div>
+  <div class="err-box" id="submit-error" style="display:none"></div>
+  <button class="submit-btn" id="submit-btn" onclick="submitLog()">Submit Daily Log →</button>
+  <div class="nav-btns">
+    <button class="back-btn" onclick="goToStep(3)">← Back</button>
+  </div>
+</div>
+
+<!-- PAGE 5: Success -->
+<div class="page" id="page-5">
+  <div class="success-box">
+    <div class="success-circle">✓</div>
+    <div class="success-title">Log Submitted!</div>
+    <div class="success-body" id="success-body">Your daily log has been recorded.</div>
+    <div class="success-stats">
+      <div class="success-stat">
+        <div class="success-val" id="s-riders">0</div>
+        <div class="success-slabel">Riders Today</div>
+      </div>
+      <div class="success-divider"></div>
+      <div class="success-stat">
+        <div class="success-val" id="s-odo">—</div>
+        <div class="success-slabel">Odometer</div>
+      </div>
+    </div>
+    <button class="submit-btn" onclick="resetApp()">Start New Log</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  VAN ROSTERS
+// ══════════════════════════════════════════════
+const VAN_ROSTERS = {
+  "Van 5":  { driver: "Robert Johnson", riders: [
+    { name: "Keith White",    isDriver: false },
+    { name: "Robert Johnson", isDriver: true  },
+  ]},
+  "Van 6":  { driver: "Eric Schile", riders: [
+    { name: "Eric Schile",      isDriver: true  },
+    { name: "Dom Winder",       isDriver: false },
+    { name: "Jonathan Speare",  isDriver: false },
+    { name: "Dario Steinhardt", isDriver: false },
+  ]},
+  "Van 9":  { driver: "Dustin Thompson", riders: [
+    { name: "Dustin Thompson", isDriver: true  },
+    { name: "Mike Paul",       isDriver: false },
+  ]},
+  "Van 16": { driver: "Laura Bess", riders: [
+    { name: "Laura Bess",   isDriver: true  },
+    { name: "Karen",        isDriver: false },
+    { name: "Stacey",       isDriver: false },
+    { name: "Mark Livesay", isDriver: true  },
+    { name: "Ceara",        isDriver: false },
+    { name: "Sydney",       isDriver: false },
+    { name: "Therese",      isDriver: false },
+  ]},
+  "Van 17": { driver: "Ron Betts", riders: [
+    { name: "Ron Betts",        isDriver: true  },
+    { name: "Therese Elkinton", isDriver: false },
+  ]},
+  "Van 18": { driver: "Vanessa Janckila", riders: [
+    { name: "Casey",            isDriver: false },
+    { name: "Vanessa Janckila", isDriver: true  },
+    { name: "Bob Larson",       isDriver: false },
+    { name: "Eric Sylvester",   isDriver: false },
+  ]},
+  "Van 23": { driver: "Eric Schile", riders: [
+    { name: "Greg Koniges",      isDriver: true  },
+    { name: "Kevin Keeley",      isDriver: true  },
+    { name: "Prakash Paruchuri", isDriver: true  },
+    { name: "Eric Schile",       isDriver: true  },
+    { name: "Dom Winder",        isDriver: false },
+    { name: "Jacob Zipp",        isDriver: false },
+    { name: "Jonathan Speare",   isDriver: false },
+    { name: "Dario Steinhardt",  isDriver: false },
+    { name: "Hunter Hickes",     isDriver: false },
+  ]},
+};
+
+const CHECKLIST_ITEMS = [
+  { id: "damage",   icon: "🪟", label: "No damage to mirrors, windows, or body" },
+  { id: "tires",    icon: "🛞", label: "Tires — no cuts, proper inflation"       },
+  { id: "lights",   icon: "💡", label: "All lights & signals working"            },
+  { id: "clear",    icon: "🚦", label: "Clear to move — no obstructions"         },
+  { id: "fuel",     icon: "⛽", label: "Fuel level above half tank"              },
+  { id: "wipers",   icon: "🌧️", label: "Windshield wipers functional"            },
+  { id: "interior", icon: "🪑", label: "Interior clean & clear of hazards"       },
+];
+
+const TRIP_LABELS = { both: "Both Ways", am: "AM Only", pm: "PM Only", out: "Not Today" };
+
+let state = {
+  van: null, driver: "", odometer: "",
+  riders: [], checklist: {}, checkNotes: {}, comments: "", step: 0
+};
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+window.addEventListener("DOMContentLoaded", () => {
+  const now = new Date();
+  document.getElementById("welcome-date").textContent =
+    now.toLocaleDateString("en-US", { weekday:"long", month:"long", day:"numeric", year:"numeric" });
+  buildVanGrid();
+  initAdminNotice();
+});
+
+// ══════════════════════════════════════════════
+//  ADMIN NOTICE
+// ══════════════════════════════════════════════
+const ADMIN_NOTICE = "";
+function initAdminNotice() {
+  const msg = ADMIN_NOTICE || localStorage.getItem("iride_notice") || "";
+  const dismissed = sessionStorage.getItem("notice_dismissed");
+  if (msg && !dismissed) {
+    document.getElementById("notice-text").textContent = msg;
+    document.getElementById("admin-notice").style.display = "flex";
+  }
+}
+function dismissNotice() {
+  sessionStorage.setItem("notice_dismissed","1");
+  document.getElementById("admin-notice").style.display = "none";
+}
+function setAdminNotice(msg) { localStorage.setItem("iride_notice", msg); location.reload(); }
+function clearAdminNotice() { localStorage.removeItem("iride_notice"); location.reload(); }
+
+// ══════════════════════════════════════════════
+//  VAN GRID
+// ══════════════════════════════════════════════
+function buildVanGrid() {
+  const grid = document.getElementById("van-grid");
+  Object.entries(VAN_ROSTERS).forEach(([vanId, data]) => {
+    const card = document.createElement("button");
+    card.className = "van-card";
+    card.innerHTML = `
+      <div class="van-accent"></div>
+      <div class="van-name">${vanId}</div>
+      <div class="van-driver">${data.driver || "No designated driver"}</div>
+      <div class="van-count">${data.riders.length} riders</div>`;
+    card.onclick = () => selectVan(vanId);
+    grid.appendChild(card);
+  });
+}
+
+// ══════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════
+function selectVan(vanId) {
+  state.van = vanId;
+  state.driver = VAN_ROSTERS[vanId].driver || "";
+  state.riders = VAN_ROSTERS[vanId].riders.map(r => ({ ...r, status: "both" }));
+  state.checklist = {};
+  state.checkNotes = {};
+  CHECKLIST_ITEMS.forEach(c => { state.checklist[c.id] = null; state.checkNotes[c.id] = ""; });
+  buildRiderList();
+  buildChecklist();
+  goToStep(1);
+}
+
+function goToStep(step) {
+  state.step = step;
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById("page-" + step).classList.add("active");
+  document.getElementById("cancel-btn").style.display = step > 0 && step < 5 ? "block" : "none";
+  document.getElementById("progress-wrap").style.display = step > 0 && step < 5 ? "flex" : "none";
+  if (step > 0 && step < 5) updateProgress(step - 1);
+  if (step === 1) {
+    const picks = document.getElementById("driver-quick-picks");
+    picks.innerHTML = "";
+    const drivers = VAN_ROSTERS[state.van].riders.filter(r => r.isDriver).map(r => r.name);
+    drivers.forEach(name => {
+      const btn = document.createElement("button");
+      btn.className = "quick-btn" + (state.driver === name ? " active" : "");
+      btn.textContent = name.split(" ")[0];
+      btn.onclick = () => {
+        state.driver = name;
+        document.getElementById("driver-input").value = name;
+        document.querySelectorAll("#driver-quick-picks .quick-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+      };
+      picks.appendChild(btn);
+    });
+    document.getElementById("driver-input").value = state.driver;
+    document.getElementById("odometer-input").value = state.odometer;
+  }
+  ["1","2","3","4"].forEach(i => {
+    const el = document.getElementById("step-van-"+i);
+    const dt = document.getElementById("step-date-"+i);
+    if (el) el.textContent = state.van || "";
+    if (dt) dt.textContent = new Date().toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
+  });
+  if (step === 4) buildReview();
+  window.scrollTo(0, 0);
+}
+
+function updateProgress(activeIdx) {
+  [0,1,2,3].forEach(i => {
+    const seg = document.getElementById("seg-"+i);
+    seg.className = "progress-seg" + (i < activeIdx ? " done" : i === activeIdx ? " active" : "");
+  });
+}
+
+function cancelLog() {
+  state = { van:null, driver:"", odometer:"", riders:[], checklist:{}, checkNotes:{}, comments:"", step:0 };
+  goToStep(0);
+}
+
+// ══════════════════════════════════════════════
+//  RIDER LIST
+// ══════════════════════════════════════════════
+function buildRiderList() {
+  const list = document.getElementById("rider-list");
+  list.innerHTML = "";
+  state.riders.forEach((rider, idx) => {
+    const card = document.createElement("div");
+    card.className = "rider-card";
+    card.id = "rider-card-" + idx;
+    card.innerHTML = `
+      <div class="rider-top">
+        <span class="rider-name">${rider.name}</span>
+        ${rider.isDriver ? '<span class="driver-badge">Driver</span>' : ""}
+      </div>
+      <div class="trip-btns">
+        ${["both","am","pm","out"].map(s => `
+          <button class="trip-btn ${rider.status===s ? s : ""}"
+            onclick="setRiderStatus(${idx},'${s}')">
+            ${s==="both"?"Both":s==="am"?"AM Only":s==="pm"?"PM Only":"Not Today"}
+          </button>`).join("")}
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+function setRiderStatus(idx, status) {
+  state.riders[idx].status = status;
+  const card = document.getElementById("rider-card-" + idx);
+  card.querySelectorAll(".trip-btn").forEach((btn, i) => {
+    const s = ["both","am","pm","out"][i];
+    btn.className = "trip-btn" + (status === s ? " " + s : "");
+  });
+}
+
+function addRiderFromInput() {
+  const input = document.getElementById("add-rider-input");
+  const name  = input.value.trim();
+  if (!name) return;
+  state.riders.push({ name, isDriver: false, status: "both" });
+  input.value = "";
+  buildRiderList();
+}
+
+// ══════════════════════════════════════════════
+//  CHECKLIST
+// ══════════════════════════════════════════════
+function buildChecklist() {
+  const el = document.getElementById("checklist");
+  el.innerHTML = "";
+  CHECKLIST_ITEMS.forEach(item => {
+    const row = document.createElement("div");
+    row.className = "check-row";
+    row.id = "check-row-" + item.id;
+    row.innerHTML = `
+      <div class="check-top">
+        <span class="check-icon">${item.icon}</span>
+        <span class="check-label">${item.label}</span>
+      </div>
+      <div class="check-btns">
+        <button class="check-opt" id="opt-good-${item.id}" onclick="setCheckStatus('${item.id}','good')">✓ Good</button>
+        <button class="check-opt" id="opt-issue-${item.id}" onclick="setCheckStatus('${item.id}','issue')">⚠ Issue</button>
+      </div>
+      <div class="check-issue-note" id="note-wrap-${item.id}">
+        <textarea class="check-issue-input" id="note-${item.id}" rows="2"
+          placeholder="Describe the issue…"
+          oninput="state.checkNotes['${item.id}']=this.value"></textarea>
+      </div>`;
+    el.appendChild(row);
+  });
+}
+
+function setCheckStatus(id, status) {
+  state.checklist[id] = status;
+  const row      = document.getElementById("check-row-" + id);
+  const goodBtn  = document.getElementById("opt-good-" + id);
+  const issueBtn = document.getElementById("opt-issue-" + id);
+  const noteWrap = document.getElementById("note-wrap-" + id);
+  row.classList.remove("good-row","issue-row");
+  goodBtn.classList.remove("good-active");
+  issueBtn.classList.remove("issue-active");
+  if (status === "good") {
+    row.classList.add("good-row");
+    goodBtn.classList.add("good-active");
+    noteWrap.classList.remove("visible");
+  } else {
+    row.classList.add("issue-row");
+    issueBtn.classList.add("issue-active");
+    noteWrap.classList.add("visible");
+    document.getElementById("note-" + id).focus();
+  }
+  updateCheckProgress();
+}
+
+function updateCheckProgress() {
+  const answered = Object.values(state.checklist).filter(v => v !== null).length;
+  const total    = CHECKLIST_ITEMS.length;
+  const allDone  = answered === total;
+  const issues   = Object.values(state.checklist).filter(v => v === "issue").length;
+  document.getElementById("check-fill").style.width = (answered/total*100) + "%";
+  document.getElementById("check-count").textContent = answered + "/" + total;
+  const allClearEl = document.getElementById("all-clear");
+  if (allDone) {
+    allClearEl.style.display = "block";
+    if (issues === 0) {
+      allClearEl.style.cssText = "background:var(--greenbg);border:1px solid var(--greenbdr);color:var(--green);border-radius:10px;padding:12px 14px;font-size:14px;font-weight:600;margin-bottom:20px";
+      allClearEl.textContent = "✅ All items checked — van is clear for departure!";
+    } else {
+      allClearEl.style.cssText = "background:var(--amberbg);border:1px solid var(--amberbdr);color:var(--amber);border-radius:10px;padding:12px 14px;font-size:14px;font-weight:600;margin-bottom:20px";
+      allClearEl.textContent = `⚠️ ${issues} issue${issues>1?"s":""} noted — coordinator will be informed.`;
+    }
+  } else {
+    allClearEl.style.display = "none";
+  }
+  document.getElementById("checklist-warning").style.display = "none";
+  document.getElementById("next-btn-3").disabled = !allDone;
+}
+
+function tryGoToReview() {
+  const answered = Object.values(state.checklist).filter(v => v !== null).length;
+  if (answered < CHECKLIST_ITEMS.length) {
+    document.getElementById("checklist-warning").style.display = "block";
+    for (const item of CHECKLIST_ITEMS) {
+      if (state.checklist[item.id] === null) {
+        document.getElementById("check-row-" + item.id).scrollIntoView({ behavior:"smooth", block:"center" });
+        break;
+      }
+    }
+    return;
+  }
+  goToStep(4);
+}
+
+// ══════════════════════════════════════════════
+//  REVIEW
+// ══════════════════════════════════════════════
+function buildReview() {
+  state.driver   = document.getElementById("driver-input").value.trim() || state.driver;
+  state.odometer = document.getElementById("odometer-input").value.trim();
+  state.comments = document.getElementById("comments-input").value.trim();
+  const riding   = state.riders.filter(r => r.status !== "out").length;
+  const issues   = Object.values(state.checklist).filter(v => v === "issue").length;
+  document.getElementById("rv-van").textContent    = state.van;
+  document.getElementById("rv-driver").textContent = state.driver || "—";
+  document.getElementById("rv-odo").textContent    = state.odometer ? parseInt(state.odometer).toLocaleString() : "—";
+  document.getElementById("rv-riders").textContent = riding;
+  document.getElementById("rv-date").textContent   = new Date().toLocaleDateString("en-US",{month:"short",day:"numeric"});
+  const rvCheckEl = document.getElementById("rv-check");
+  if (issues > 0) { rvCheckEl.textContent = issues + " Issue" + (issues>1?"s":""); rvCheckEl.style.color = "var(--amber)"; }
+  else { rvCheckEl.textContent = "All Clear ✓"; rvCheckEl.style.color = "var(--green)"; }
+  const reviewRiders = document.getElementById("review-riders");
+  reviewRiders.innerHTML = state.riders.map(r => `
+    <div class="review-rider-row">
+      <span class="review-rider-name">${r.name}</span>
+      <span class="review-rider-status status-${r.status}">${TRIP_LABELS[r.status]}</span>
+    </div>`).join("");
+}
+
+// ══════════════════════════════════════════════
+//  SUBMIT TO AIRTABLE
+// ══════════════════════════════════════════════
+async function submitLog() {
+  state.driver   = document.getElementById("driver-input").value.trim() || state.driver;
+  state.odometer = document.getElementById("odometer-input").value.trim();
+  state.comments = document.getElementById("comments-input").value.trim();
+  if (!state.driver) {
+    document.getElementById("submit-error").textContent = "Please enter the driver name.";
+    document.getElementById("submit-error").style.display = "block";
+    return;
+  }
+  const btn = document.getElementById("submit-btn");
+  btn.textContent = "Submitting…";
+  btn.classList.add("loading");
+  btn.disabled = true;
+  document.getElementById("submit-error").style.display = "none";
+
+  const now      = new Date();
+  const dateStr  = now.toISOString().split("T")[0];
+  const riding   = state.riders.filter(r => r.status !== "out").length;
+  const allClear = Object.values(state.checklist).every(v => v === "good");
+  const issues   = CHECKLIST_ITEMS
+    .filter(c => state.checklist[c.id] === "issue")
+    .map(c => c.label + (state.checkNotes[c.id] ? ": " + state.checkNotes[c.id] : ""))
+    .join("; ");
+
+  // Build Airtable fields object
+  // Field names must match exactly what Airtable AI created
+  const fields = {
+    "Van":              state.van,
+    "Date":             dateStr,
+    "Driver":           state.driver,
+    "Odometer":         state.odometer ? parseInt(state.odometer) : null,
+    "Riders Today":     riding,
+    "Checklist Pass":   allClear ? "Yes" : "No",
+    "Checklist Issues": issues || "None",
+    "Comments":         state.comments,
+    "Timestamp":        now.toISOString(),
+  };
+
+  // Add individual rider fields
+  state.riders.forEach((rider, i) => {
+    fields["Rider " + (i+1) + " Name"]   = rider.name;
+    fields["Rider " + (i+1) + " Status"] = TRIP_LABELS[rider.status];
+  });
+
+  try {
+    const res = await fetch(`https://api.airtable.com/v0/${AT_BASE}/${AT_TABLE}`, {
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer " + AT_TOKEN,
+        "Content-Type":  "application/json",
+      },
+      body: JSON.stringify({ fields }),
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error?.message || "Airtable error");
+
+    document.getElementById("s-riders").textContent = riding;
+    document.getElementById("s-odo").textContent    = state.odometer ? parseInt(state.odometer).toLocaleString() : "—";
+    document.getElementById("success-body").textContent =
+      state.van + " · " + state.driver + " · " +
+      now.toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"});
+    goToStep(5);
+
+  } catch(err) {
+    btn.textContent = "Submit Daily Log →";
+    btn.classList.remove("loading");
+    btn.disabled = false;
+    document.getElementById("submit-error").textContent = "Submission failed: " + err.message + ". Check your connection.";
+    document.getElementById("submit-error").style.display = "block";
+  }
+}
+
+function resetApp() {
+  state = { van:null, driver:"", odometer:"", riders:[], checklist:{}, checkNotes:{}, comments:"", step:0 };
+  document.getElementById("van-grid").innerHTML = "";
+  buildVanGrid();
+  goToStep(0);
+}
+</script>
+</body>
+</html>
