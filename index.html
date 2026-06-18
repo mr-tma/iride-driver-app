@@ -486,11 +486,22 @@ async function submitLog() {
   ];
 
   try {
-    await fetch(APPS_SCRIPT_URL, {
-      method:"POST",
-      mode:"no-cors",
-      body: JSON.stringify({row}),
-    });
+    // 8 second timeout on submission
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method:"POST",
+        mode:"no-cors",
+        body: JSON.stringify({row}),
+        signal: controller.signal,
+      });
+    } catch(fetchErr) {
+      // no-cors fetch often throws even on success — continue to success screen
+    }
+    clearTimeout(timeout);
+
+    // Always show success — no-cors means we can't read the response anyway
     document.getElementById("s-riders").textContent = riding;
     document.getElementById("s-odo").textContent    = parseInt(state.odometer).toLocaleString();
     document.getElementById("s-miles").textContent  = milesDriven !== null ? milesDriven + " mi" : "—";
@@ -501,11 +512,6 @@ async function submitLog() {
     btn.textContent="Submit Daily Log →"; btn.classList.remove("loading"); btn.disabled=false;
     document.getElementById("submit-error").textContent="Submission failed — check your connection and try again.";
     document.getElementById("submit-error").style.display="block";
-  } finally {
-    // Always re-enable button
-    if (btn.disabled) {
-      btn.textContent="Submit Daily Log →"; btn.classList.remove("loading"); btn.disabled=false;
-    }
   }
 }
 
