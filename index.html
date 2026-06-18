@@ -197,6 +197,10 @@ const AT_TABLE   = "tblESoZQVB6PDeFhW"; // Daily Logs
     <label class="label">Starting Odometer</label>
     <input class="input-large" id="odometer-input" type="number" placeholder="00000">
   </div>
+  <div class="field">
+    <label class="label">Ending Odometer</label>
+    <input class="input-large" id="odometer-end-input" type="number" placeholder="00000">
+  </div>
   <div class="nav-btns">
     <button class="back-btn" onclick="goToStep(0)">← Back</button>
     <button class="next-btn" onclick="goToStep(2)">Next: Riders →</button>
@@ -254,7 +258,9 @@ const AT_TABLE   = "tblESoZQVB6PDeFhW"; // Daily Logs
   <div class="review-grid">
     <div class="review-card"><div class="review-val" id="rv-van">—</div><div class="review-label">Van</div></div>
     <div class="review-card"><div class="review-val" id="rv-driver">—</div><div class="review-label">Driver</div></div>
-    <div class="review-card"><div class="review-val" id="rv-odo">—</div><div class="review-label">Odometer</div></div>
+    <div class="review-card"><div class="review-val" id="rv-odo">—</div><div class="review-label">Start Odometer</div></div>
+    <div class="review-card"><div class="review-val" id="rv-odo-end">—</div><div class="review-label">End Odometer</div></div>
+    <div class="review-card"><div class="review-val" id="rv-miles">—</div><div class="review-label">Miles Today</div></div>
     <div class="review-card"><div class="review-val" id="rv-riders">—</div><div class="review-label">Riders Today</div></div>
     <div class="review-card"><div class="review-val" id="rv-check">—</div><div class="review-label">Checklist</div></div>
     <div class="review-card"><div class="review-val" id="rv-date">—</div><div class="review-label">Date</div></div>
@@ -360,7 +366,7 @@ const TRIP_LABELS = { both: "Both Ways", am: "AM Only", pm: "PM Only", out: "Not
 
 let state = {
   van: null, driver: "", odometer: "",
-  riders: [], checklist: {}, checkNotes: {}, comments: "", step: 0
+  riders: [], checklist: {}, checkNotes: {}, comments: "", odometer: "", odometerEnd: "", step: 0
 };
 
 // ══════════════════════════════════════════════
@@ -611,16 +617,21 @@ function tryGoToReview() {
 //  REVIEW
 // ══════════════════════════════════════════════
 function buildReview() {
-  state.driver   = document.getElementById("driver-input").value.trim() || state.driver;
-  state.odometer = document.getElementById("odometer-input").value.trim();
-  state.comments = document.getElementById("comments-input").value.trim();
-  const riding   = state.riders.filter(r => r.status !== "out").length;
-  const issues   = Object.values(state.checklist).filter(v => v === "issue").length;
-  document.getElementById("rv-van").textContent    = state.van;
-  document.getElementById("rv-driver").textContent = state.driver || "—";
-  document.getElementById("rv-odo").textContent    = state.odometer ? parseInt(state.odometer).toLocaleString() : "—";
-  document.getElementById("rv-riders").textContent = riding;
-  document.getElementById("rv-date").textContent   = new Date().toLocaleDateString("en-US",{month:"short",day:"numeric"});
+  state.driver      = document.getElementById("driver-input").value.trim() || state.driver;
+  state.odometer    = document.getElementById("odometer-input").value.trim();
+  state.odometerEnd = document.getElementById("odometer-end-input").value.trim();
+  state.comments    = document.getElementById("comments-input").value.trim();
+  const riding      = state.riders.filter(r => r.status !== "out").length;
+  const issues      = Object.values(state.checklist).filter(v => v === "issue").length;
+  const miles       = (state.odometer && state.odometerEnd)
+    ? parseInt(state.odometerEnd) - parseInt(state.odometer) : null;
+  document.getElementById("rv-van").textContent     = state.van;
+  document.getElementById("rv-driver").textContent  = state.driver || "—";
+  document.getElementById("rv-odo").textContent     = state.odometer ? parseInt(state.odometer).toLocaleString() : "—";
+  document.getElementById("rv-odo-end").textContent = state.odometerEnd ? parseInt(state.odometerEnd).toLocaleString() : "—";
+  document.getElementById("rv-miles").textContent   = miles !== null && miles >= 0 ? miles + " mi" : "—";
+  document.getElementById("rv-riders").textContent  = riding;
+  document.getElementById("rv-date").textContent    = new Date().toLocaleDateString("en-US",{month:"short",day:"numeric"});
   const rvCheckEl = document.getElementById("rv-check");
   if (issues > 0) { rvCheckEl.textContent = issues + " Issue" + (issues>1?"s":""); rvCheckEl.style.color = "var(--amber)"; }
   else { rvCheckEl.textContent = "All Clear ✓"; rvCheckEl.style.color = "var(--green)"; }
@@ -661,23 +672,24 @@ async function submitLog() {
 
   // Build Airtable fields object
   // Field names must match exactly what Airtable AI created
-  const fields = {
-    "Van":              state.van,
-    "Date":             dateStr,
-    "Driver":           state.driver,
-    "Odometer":         state.odometer ? parseInt(state.odometer) : null,
-    "Riders Today":     riding,
-    "Checklist Pass":   allClear ? "Yes" : "No",
-    "Checklist Issues": issues || "None",
-    "Comments":         state.comments,
-    "Timestamp":        now.toISOString(),
-  };
+  const odometerEnd = document.getElementById("odometer-end-input").value.trim();
+  const miles = (state.odometer && odometerEnd)
+    ? parseInt(odometerEnd) - parseInt(state.odometer) : null;
 
-  // Add individual rider fields
-  state.riders.forEach((rider, i) => {
-    fields["Rider " + (i+1) + " Name"]   = rider.name;
-    fields["Rider " + (i+1) + " Status"] = TRIP_LABELS[rider.status];
-  });
+  const fields = {
+    "Van Number":        state.van,
+    "Date":              dateStr,
+    "Driver Name":       state.driver,
+    "Starting Odometer": state.odometer ? parseInt(state.odometer) : null,
+    "Ending Odometer":   odometerEnd ? parseInt(odometerEnd) : null,
+    "Miles Driven":      miles !== null && miles >= 0 ? miles : null,
+    "Number of Riders":  riding,
+    "Pre-Trip Safety":   allClear ? "Yes" : "No",
+    "Checklist Issues":  issues || "None",
+    "Comments":          state.comments,
+    "Timestamp":         now.toISOString(),
+    "Riders":            state.riders.filter(r => r.status !== "out").map(r => r.name).join(", "),
+  };
 
   try {
     const res = await fetch(`https://api.airtable.com/v0/${AT_BASE}/${AT_TABLE}`, {
